@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import api from '../api'
-import { ElMessageBox, ElMessage, ElAvatar, Plus } from 'element-plus';
-// import { Plus } from '@element-plus/icons-vue';
+import { ElMessageBox, ElMessage, ElAvatar } from 'element-plus';
+import { Plus } from '@element-plus/icons-vue';
 import type { UploadProps } from 'element-plus'
 
 
@@ -11,13 +11,13 @@ const user = sessionStorage.getItem("user");
 // 定义绑定数据
 const tableData = ref([]);
 // 控制新增信息窗口是否显示
-const addWinVisible = ref(false);
+// const addWinVisible = ref(false);
 // 控制编辑信息窗口是否显示
 const editWinVisible = ref(false);
 // 上传头像窗口控制
 const uploadImgWinVisible = ref(false);
 // 新增数据绑定对象
-const addObject = ref({});
+// const addObject = ref({});
 // 编辑数据绑定对象
 const editObject = ref({});
 // 上传头像绑定的数据
@@ -71,29 +71,31 @@ const del = function (index, row) {
         }
     })
 }
+
 // 保存新增数据
-const addSave = async function () {
-    // 发送请求
-    let result = await api.postJson("/api/operators", addObject.value);
-    if (result.code == 200) {
-        // 表格数据变更
-        tableData.value.unshift(result.data);
-        // 提示
-        ElMessage({
-            type: 'success',
-            message: '注册成功'
-        })
+// const addSave = async function () {
+//     // 发送请求
+//     let result = await api.postJson("/api/operators", addObject.value);
+//     if (result.code == 200) {
+//         // 表格数据变更
+//         tableData.value.unshift(result.data);
+//         // 提示
+//         ElMessage({
+//             type: 'success',
+//             message: '注册成功'
+//         })
 
-        closeAddWin();
-    }
-    else if (result.code == 400) {
+//         closeAddWin();
+//     }
+//     else if (result.code == 400) {
 
-        ElMessage({
-            type: 'warning',
-            message: '用户名已存在'
-        });
-    }
-}
+//         ElMessage({
+//             type: 'warning',
+//             message: '用户名已存在'
+//         });
+//     }
+// }
+
 // 保存编辑数据
 const editSave = async function () {
 
@@ -126,19 +128,19 @@ const edit = function (index, row) {
     editObject.value.id = row.id;
     editObject.value.name = row.name;
     editObject.value.password = row.password;
-    editObject.value.email = row.email;
+    // editObject.value.email = row.email;
 
     // 打开对话框
     editWinVisible.value = true;
 }
 // 显示窗口
-const openAddWin = () => {
-    addObject.value = {};
-    addWinVisible.value = true;
-}
-const closeAddWin = () => {
-    addWinVisible.value = false;
-}
+// const openAddWin = () => {
+//     addObject.value = {};
+//     addWinVisible.value = true;
+// }
+// const closeAddWin = () => {
+//     addWinVisible.value = false;
+// }
 
 // const changePage = function (val) {
 //   //val 就是点击的页码
@@ -165,6 +167,7 @@ const uploadimg = function (index, row) {
 
     editIndex = index;
     editObject.value = row;
+    console.log(row);
 }
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = function (result, uploadFile) {
@@ -194,8 +197,8 @@ const saveimg = async function () {
 </script>
 
 <template>
-    <el-button type="success" @click="openAddWin">注册新的管理员账户</el-button>
-    <el-input v-model="checkObj.name" style="width: 150px;margin-left: 20px;" placeholder="输入名称查询" />
+    <!-- <el-button type="success" @click="openAddWin">注册新的管理员账户</el-button> -->
+    <el-input v-model="checkObj.name" style="width: 150px;" placeholder="输入名称查询" />
     <el-input v-model="checkObj.email" style="width: 150px ;margin-left: 10px;" placeholder="输入邮箱查询" />
     <el-button type="success" @click="checkData" style="margin-left: 10px;">查询</el-button>
 
@@ -231,7 +234,7 @@ const saveimg = async function () {
     <el-dialog v-model="uploadImgWinVisible" title="上传头像" width="500">
         <el-upload class="avatar-uploader" action="/api/operatorsimg/1" :show-file-list="false"
             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="editObject.img" :src="editObject.img" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon">
                 <Plus />
             </el-icon>
@@ -246,7 +249,7 @@ const saveimg = async function () {
     </el-dialog>
 
     <!-- 新增信息的弹出框 -->
-    <el-dialog v-model="addWinVisible" title="新增" width="500">
+    <!-- <el-dialog v-model="addWinVisible" title="新增" width="500">
 
         <el-form :model="addObject">
             <el-form-item label="用户名" label-width="80">
@@ -267,7 +270,8 @@ const saveimg = async function () {
                 </el-button>
             </div>
         </template>
-    </el-dialog>
+    </el-dialog> -->
+
     <!-- 编辑信息的弹出框 -->
     <el-dialog v-model="editWinVisible" title="修改用户名和密码" width="500">
 
@@ -275,9 +279,9 @@ const saveimg = async function () {
             <el-form-item label="用户名" label-width="80">
                 <el-input v-model="editObject.name" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="邮箱" label-width="80">
+            <!-- <el-form-item label="邮箱" label-width="80">
                 <el-input v-model="editObject.email" autocomplete="off" />
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="原密码" label-width="80">
                 <el-input v-model="editObject.originalPassword" type="password" autocomplete="off" />
             </el-form-item>

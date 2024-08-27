@@ -87,7 +87,7 @@ const doRegister = async () => {
 
 // 表单验证函数
 const validate = async () => {
-    if ((await formRef.value.validate()) === true) {
+    if ((await formRef.value.validate()) == true) {
         let result = await api.postJson("/api/operators", registerForm.value);
         if (result.code == 200) {
             ElMessage({

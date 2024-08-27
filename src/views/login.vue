@@ -15,7 +15,7 @@ const router = useRouter();
 // 登录对象
 const loginObj = ref({});
 
-// 表单验证规则
+// 登录界面表单验证规则
 const loginRules = {
     name: [
         { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -61,32 +61,31 @@ const sendMsg = async function () {
 }
 
 // 忘记密码处理函数
-const handleForgetPassword = async () => {
+const handleForgetPassword = async function () {
     // 进行表单验证
-    formRef.value.validate((valid) => {
-        if (valid) {
-            // 验证邮箱验证码是否正确
-            let result = api.putJson("api/validatecode", editObject.value);
-            console.log(editObject.value);
-            if (result.code === 200) {
-                editWinVisible.value = false;
-                ElMessage({
-                    type: 'success',
-                    message: '重置密码成功'
-                });
-            } else {
-                ElMessage({
-                    type: 'warning',
-                    message: result.message
-                });
-            }
+    if (await editObject.value.validate() == ture) {
+        // 验证邮箱验证码是否正确
+        let result = await api.putJson("api/validatecode", editObject.value);
+        console.log(editObject.value);
+        console.log(result);
+        if (result.code == 200) {
+            editWinVisible.value = false;
+            ElMessage({
+                type: 'success',
+                message: '重置密码成功'
+            });
         } else {
             ElMessage({
                 type: 'warning',
-                message: '表单验证不通过，请检查输入'
+                message: result.message
             });
         }
-    });
+    } else {
+        ElMessage({
+            type: 'warning',
+            message: '表单验证不通过，请检查输入'
+        });
+    }
 }
 
 // 注册处理函数
@@ -222,7 +221,9 @@ const forgetPasswordRules = {
         { required: true, message: '请再次输入密码', trigger: 'blur' },
         {
             validator: (rule, value, callback) => {
-                if (value === '' || editObject.value.newPassword === value) {
+                // 验证两次密码是否一致
+                console.log(value, editObject.value.newPassword);
+                if (value == '' || editObject.value.newPassword == value) {
                     callback();
                 } else {
                     callback(new Error('两次输入的密码不一致'));
