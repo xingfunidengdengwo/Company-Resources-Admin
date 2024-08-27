@@ -60,32 +60,37 @@ const sendMsg = async function () {
     }
 }
 
+// 忘记密码表单验证函数
+const ruleFormRef1 = ref<FormInstance>()
+
 // 忘记密码处理函数
-const handleForgetPassword = async function () {
+const handleForgetPassword = async (formEl: FormInstance | undefined) => {
     // 进行表单验证
-    if (await editObject.value.validate() == ture) {
-        // 验证邮箱验证码是否正确
-        let result = await api.putJson("api/validatecode", editObject.value);
-        console.log(editObject.value);
-        console.log(result);
-        if (result.code == 200) {
-            editWinVisible.value = false;
-            ElMessage({
-                type: 'success',
-                message: '重置密码成功'
-            });
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            let result = await api.putJson("api/validatecode", editObject.value);
+            console.log(editObject.value);
+            console.log(result);
+            if (result.code == 200) {
+                editWinVisible.value = false;
+                ElMessage({
+                    type: 'success',
+                    message: '重置密码成功'
+                });
+            } else {
+                ElMessage({
+                    type: 'warning',
+                    message: result.message
+                });
+            }
         } else {
             ElMessage({
                 type: 'warning',
-                message: result.message
+                message: '表单验证不通过，请检查输入'
             });
         }
-    } else {
-        ElMessage({
-            type: 'warning',
-            message: '表单验证不通过，请检查输入'
-        });
-    }
+    })
 }
 
 // 注册处理函数
@@ -266,7 +271,7 @@ const forgetPasswordRules = {
 
     <!-- 忘记密码弹出窗口开始 -->
     <el-dialog v-model="editWinVisible" title="重置密码" width="600">
-        <el-form :model="editObject" :rules="forgetPasswordRules">
+        <el-form :model="editObject" :rules="forgetPasswordRules" ref="ruleFormRef1">
             <el-form-item label="用户名" label-width="80" prop="name">
                 <el-input v-model="editObject.name" autocomplete="off" />
             </el-form-item>
@@ -285,7 +290,7 @@ const forgetPasswordRules = {
         <template #footer>
             <div class="dialog-footer">
                 <el-button @click="editWinVisible = false">取消</el-button>
-                <el-button type="primary" @click="handleForgetPassword">
+                <el-button type="primary" @click="handleForgetPassword(ruleFormRef1)">
                     保存
                 </el-button>
             </div>
