@@ -494,7 +494,7 @@ const EndMaintenanceItem = function (index, row) {
     </el-dialog>
     <!-- 维修的弹出框结束 -->
 
-    <div id="box" style="height:400px;width:400px"></div>
+
 </template>
 
 <style scoped>

@@ -228,7 +228,7 @@ const options = ref([]);
     </el-dialog>
     <!-- end 编辑信息的弹出框 -->
 
-    <div id="box" style="height:400px;width:400px"></div>
+
 </template>
 
 <style scoped>

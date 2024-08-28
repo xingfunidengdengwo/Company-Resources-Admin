@@ -232,7 +232,7 @@ const options = ref([]);
             </div>
         </template>
     </el-dialog> -->
-    <div id="box" style="height:400px;width:400px"></div>
+
 </template>
 
 <style scoped>
