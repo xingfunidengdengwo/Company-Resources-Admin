@@ -140,6 +140,15 @@ const success = (msg) => {
                 }
                 if (result.data.operators != null) {
                     sessionStorage.setItem("avatar", result.data.operators.img);
+
+                    // 记住我 存储
+                    if (loginObj.value.rememberMe == true) {
+                        localStorage.setItem("loginForm", JSON.stringify(loginObj.value));
+                        // localStorage.setItem("rememberMeValue",JSON.stringify(rememberMe.value));
+                    } else {
+                        localStorage.setItem("loginForm", JSON.stringify({}));
+                    }
+
                     // 提示
                     ElMessage({
                         type: 'success',
@@ -182,6 +191,19 @@ const identifyCode = ref(""); // 验证码图片内容
 onMounted(() => {
     // 初始化验证码
     refreshCode();
+
+    //记住我 查看账户密码是否存在
+    if (localStorage.getItem("loginForm") != null && Object.keys(localStorage.getItem("loginForm")).length > 2) {
+
+        loginObj.value.rememberMe = true;
+        var userPwdInfo = JSON.parse(localStorage.getItem("loginForm"));
+
+        loginObj.value.name = userPwdInfo.name;
+        loginObj.value.password = userPwdInfo.password;
+    } else {
+        loginObj.value.rememberMe = false;
+    }
+
 });
 
 const refreshCode = () => {
@@ -258,6 +280,11 @@ const forgetPasswordRules = {
                     <dentify :identifyCode="identifyCode" style="height:38px;margin-left: 10px;" />
                 </span>
             </el-form-item>
+
+            <el-form-item prop="remember">
+                <el-checkbox v-model="loginObj.rememberMe">记住我</el-checkbox>
+            </el-form-item>
+
             <div class="el-form-item" style="display: block">
                 <span class="inline-block">
                     <el-button type="primary" @click="login">登录</el-button>
