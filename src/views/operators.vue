@@ -219,10 +219,10 @@ const saveimg = async function () {
             <template #default="scope">
                 <el-button type="danger" @click="uploadimg(scope.$index, scope.row)"
                     :disabled="scope.row.name != user">上传头像</el-button>
-                <el-button type="danger" @click="del(scope.$index, scope.row)"
-                    :disabled="scope.row.name != user">注销账户</el-button>
                 <el-button type="warning" @click="edit(scope.$index, scope.row)"
                     :disabled="scope.row.name != user">修改用户信息</el-button>
+                <el-button type="danger" @click="del(scope.$index, scope.row)"
+                    :disabled="scope.row.name != user">注销账户</el-button>
             </template>
         </el-table-column>
     </el-table>
