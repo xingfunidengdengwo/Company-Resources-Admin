@@ -125,7 +125,7 @@ const validate = async (formEl: FormInstance | undefined) => {
                 });
             } if (result.code == 401) {
                 ElMessage({
-                    type: 'warrning',
+                    type: 'warning',
                     message: result.message
                 });
             }
@@ -133,7 +133,7 @@ const validate = async (formEl: FormInstance | undefined) => {
 
         else {
             ElMessage({
-                type: 'warrning',
+                type: 'warning',
                 message: '请填写正确的注册信息'
             });
         }
