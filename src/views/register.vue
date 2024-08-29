@@ -16,8 +16,13 @@
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="registerForm.email" />
             </el-form-item>
-            <div class="el-form-item" style="display: block">
-                <el-button type="primary" @click="doRegister">注册</el-button>
+            <el-form-item label="验证码" prop="emailVcode">
+                <el-input v-model="registerForm.emailVcode" autocomplete="off" style="width: 180px;" />
+                <el-button class="sendMsg" @click="sendRegisterMsg" :disabled="!registerForm.email"
+                    style="margin-left: 20px;">发送验证码</el-button>
+            </el-form-item>
+            <div class="el-form-item" style="display: block ;margin-left: 100px; ">
+                <el-button type="primary" @click="validate(formRef)">注册</el-button>
                 <el-button type="default" @click="$router.go(-1)">返回</el-button>
             </div>
         </el-form>
@@ -33,13 +38,15 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { ElForm } from 'element-plus';
 //定义路由对象
 const router = useRouter();
-const formRef = ref({});
+
+// const formRef = ref({});
 
 // 注册表单数据
 const registerForm = ref({
     name: '',
     password: '',
     email: '',
+    emailVcode: '',
     confirmPassword: ''
 });
 
@@ -59,7 +66,10 @@ const registerRules = {
     confirmPassword: [
         { required: true, message: '请再次输入密码', trigger: 'blur' },
         { validator: validateConfirmPassword, trigger: 'blur' }
-    ]
+    ],
+    emailVcode: [
+        { required: true, message: '请输入验证码', trigger: 'blur' }
+    ],
 };
 
 // 验证确认密码是否与密码一致
@@ -71,48 +81,64 @@ function validateConfirmPassword(rule, value, callback) {
     }
 }
 
-// 注册处理函数
-const doRegister = async () => {
-    // 这里可以不再包含验证逻辑
-    if (registerForm.value.name.trim() === '') {
+// 发送邮件验证码
+const sendRegisterMsg = async function () {
+    // 发送邮件
+    console.log(registerForm.value)
+    let result = await api.postJson("/api/sendregistermsg", registerForm.value);
+    if (result.code == 200) {
         ElMessage({
-            type: 'warning',
-            message: '用户名不能为空'
-        });
-        return;
-    }
-
-    await validate();
-}
-
-// 表单验证函数
-const validate = async () => {
-    if ((await formRef.value.validate()) == true) {
-        let result = await api.postJson("/api/operators", registerForm.value);
-        if (result.code == 200) {
-            ElMessage({
-                type: 'success',
-                message: '注册成功'
-            });
-            // 进行页面跳转
-            setTimeout(function () {
-                router.push("/login");
-            }, 2000);
-        } if (result.code == 400) {
-
-            ElMessage({
-                type: 'warning',
-                message: '用户名已存在'
-            });
-        }
+            type: 'success',
+            message: '重置密码的邮件已发送，请查收您的邮箱'
+        })
     } else {
         ElMessage({
-            type: 'warning',
-            message: '请填写正确的注册信息'
-        });
+            type: 'info',
+            message: result.message
+        })
     }
-};
+}
 
+const formRef = ref<FormInstance>()
+
+// 表单验证函数
+const validate = async (formEl: FormInstance | undefined) => {
+
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            let result = await api.postJson("/api/operators", registerForm.value);
+            if (result.code == 200) {
+                ElMessage({
+                    type: 'success',
+                    message: '注册成功'
+                });
+                // 进行页面跳转
+                setTimeout(function () {
+                    router.push("/login");
+                }, 2000);
+            } if (result.code == 400) {
+
+                ElMessage({
+                    type: 'warning',
+                    message: result.message
+                });
+            } if (result.code == 401) {
+                ElMessage({
+                    type: 'warrning',
+                    message: result.message
+                });
+            }
+        }
+
+        else {
+            ElMessage({
+                type: 'warrning',
+                message: '请填写正确的注册信息'
+            });
+        }
+    });
+}
 
 </script>
 
