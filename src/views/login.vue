@@ -160,7 +160,7 @@ const success = (msg) => {
                     loginNotify(user);
                     setTimeout(function () {
                         // js 代码跳转
-                        router.push("/home");
+                        router.push("/charts");
                     }, 2000);
                 } else {
                     ElMessage({
