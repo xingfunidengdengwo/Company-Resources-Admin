@@ -450,7 +450,7 @@ const validateForm = (formData, formType) => {
         <el-table-column label="操作">
             <template #default="scope">
                 <div style="display: flex; ">
-                    <el-button type="danger" @click="del(scope.$index, scope.row)">删除物品</el-button>
+                    <el-button type="danger" @click="del(scope.$index, scope.row)">删除</el-button>
                     <el-button type="warning" @click="edit(scope.$index, scope.row)">编辑</el-button>
                     <el-button type="primary" @click="borrowItem(scope.$index, scope.row)"
                         :disabled="scope.row.status != '空闲'">借出</el-button>
