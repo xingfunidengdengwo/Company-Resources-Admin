@@ -58,6 +58,10 @@ const del = function (index, row) {
 }
 //保存新增数据  addObject
 const addSave = async function () {
+    // 进行表单验证
+    if (!validateForm(addObject.value)) {
+        return;
+    }
     //发送请求
     // api.postForm("/api/employees", addObject.value);
     let result = await api.postJson("/api/employees", addObject.value);
@@ -79,6 +83,11 @@ const addSave = async function () {
 }
 //保存编辑数据
 const editSave = async function () {
+
+    // 进行表单验证
+    if (!validateForm(editObject.value)) {
+        return;
+    }
 
     //发送请求
     let result = await api.putJson("/api/employees", editObject.value);
@@ -146,6 +155,27 @@ const remoteMethod = async () => {
 }
 const options = ref([]);
 //下拉菜单结束
+
+// 表单验证
+const validateForm = (formData) => {
+    let isValid = true;
+
+    // 验证姓名
+    if (!formData.name || formData.name.trim() === '') {
+        ElMessage.error('请输入姓名');
+        isValid = false;
+        return isValid;
+    }
+
+    // 验证部门选择
+    if (!formData.departmentId) {
+        ElMessage.error('请选择部门');
+        isValid = false;
+        return isValid;
+    }
+
+    return isValid;
+};
 
 </script>
 

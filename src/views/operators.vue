@@ -71,6 +71,11 @@ const del = function (index, row) {
 // 保存编辑数据
 const editSave = async function () {
 
+    // 进行表单验证
+    if (!validateForm(editObject.value)) {
+        return;
+    }
+
     // 发送请求
     let result = await api.putJson("/api/operators", editObject.value);
     // 刷新表格
@@ -162,6 +167,34 @@ const saveimg = async function () {
     ElMessage({ type: 'success', message: '头像将在重新登陆后生效' })
 
 }
+
+// 表单验证
+const validateForm = (formData) => {
+    let isValid = true;
+
+    // 验证用户名
+    if (!formData.name || formData.name.trim() === '') {
+        ElMessage.error('请输入用户名');
+        isValid = false;
+        return isValid;
+    }
+
+    // 验证原密码
+    if (!formData.originalPassword || formData.originalPassword.trim() === '') {
+        ElMessage.error('请输入原密码');
+        isValid = false;
+        return isValid;
+    }
+
+    // 验证新密码
+    if (!formData.newPassword || formData.newPassword.trim() === '') {
+        ElMessage.error('请输入新密码');
+        isValid = false;
+        return isValid;
+    }
+    return isValid;
+
+};
 </script>
 
 <template>

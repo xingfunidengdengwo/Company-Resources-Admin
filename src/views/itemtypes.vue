@@ -58,6 +58,10 @@ const del = function (index, row) {
 }
 // 保存新增数据
 const addSave = async function () {
+    // 进行表单验证
+    if (!validateForm(addObject.value)) {
+        return;
+    }
     // 发送请求
     let result = await api.postJson("/api/itemtypes", addObject.value);
     if (result.code == 200) {
@@ -78,6 +82,10 @@ const addSave = async function () {
 }
 // 保存编辑数据
 const editSave = async function () {
+    // 进行表单验证
+    if (!validateForm(editObject.value)) {
+        return;
+    }
     // 发送请求
     let result = await api.putJson("/api/itemtypes", editObject.value);
     if (result.code == 200) {
@@ -133,6 +141,21 @@ const checkData = async function (val) {
     tableData.value = result.data.list;
     total.value = result.data.count;
 }
+
+// 表单验证
+const validateForm = (formData) => {
+    let isValid = true;
+
+    // 验证分类名称
+    if (!formData.name || formData.name.trim() === '') {
+        ElMessage.error('请输入分类名称');
+        isValid = false;
+        return isValid;
+
+    }
+
+    return isValid;
+};
 
 </script>
 

@@ -59,6 +59,12 @@ const del = function (index, row) {
 }
 //保存新增数据  addObject
 const addSave = async function () {
+
+    // 进行表单验证
+    if (!validateForm(addObject.value, 'addObject')) {
+        return;
+    }
+
     //发送请求
     // api.postForm("/api/items", addObject.value);
     let result = await api.postJson("/api/items", addObject.value);
@@ -82,6 +88,10 @@ const addSave = async function () {
 }
 //保存编辑数据
 const editSave = async function () {
+    // 进行表单验证
+    if (!validateForm(editObject.value, 'editObject')) {
+        return;
+    }
     //发送请求
     let result = await api.putJson("/api/items", editObject.value);
     if (result.code == 200) {
@@ -202,6 +212,10 @@ const closeBorrowAddWin = () => {
 }
 // 保存借出数据
 const addBorrowSave = async function () {
+    // 进行表单验证
+    if (!validateForm(addBorrowObject.value, 'addBorrowObject')) {
+        return;
+    }
     addBorrowObject.value.status = "借出";
     // 发送请求
     let result = await api.postJson("/api/borrowreturn", addBorrowObject.value);
@@ -256,6 +270,10 @@ const closeMaintenanceAddWin = () => {
 }
 // 保存维修数据
 const addMaintenanceSave = async function () {
+    // 进行表单验证
+    if (!validateForm(addMaintenanceObject.value, 'addMaintenanceObject')) {
+        return;
+    }
     addMaintenanceObject.value.status = "维修";
     // 发送请求
     let result = await api.postJson("/api/maintenance", addMaintenanceObject.value);
@@ -344,6 +362,65 @@ const EndMaintenanceItem = function (index, row) {
     });
 }
 //维修结束==============================================结束
+
+// 表单验证
+const validateForm = (formData, formType) => {
+    let isValid = true;
+
+    if (formType === 'addObject' || formType === 'editObject') {
+        // 验证编号
+        if (!formData.code || formData.code === '') {
+            ElMessage.error('请输入编号');
+            isValid = false;
+            return isValid;
+
+        }
+
+        // 验证物品名称
+        if (!formData.name || formData.name.trim() === '') {
+            ElMessage.error('请输入物品名称');
+            isValid = false;
+            return isValid;
+        }
+
+        // 验证分类选择
+        if (!formData.typeId) {
+            ElMessage.error('请选择分类名称');
+            isValid = false;
+            return isValid;
+
+        }
+    }
+
+    if (formType === 'addBorrowObject') {
+        // 验证员工选择
+        if (!formData.employeeId) {
+            ElMessage.error('请选择员工名称');
+            isValid = false;
+            return isValid;
+
+        }
+
+        // 验证预期归还时间
+        if (!formData.expectedReturnTime) {
+            ElMessage.error('请输入预期归还时间');
+            isValid = false;
+            return isValid;
+
+        }
+    }
+
+    if (formType === 'addMaintenanceObject') {
+        // 验证维修描述
+        if (!formData.description || formData.description.trim() === '') {
+            ElMessage.error('请输入维修描述');
+            isValid = false;
+            return isValid;
+        }
+    }
+
+    return isValid;
+};
 
 </script>
 
