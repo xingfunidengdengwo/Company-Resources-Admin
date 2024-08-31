@@ -74,7 +74,7 @@ onMounted(async function () {
 <template>
     <h1 style="text-align: center; font-size: 30px">物品借用和维修统计</h1>
 
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 50px; ">
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 80px; ">
         <div id="borrow" style="width: 600px;height:400px;"></div>
         <div id="maintenance" style="width: 600px;height:400px; "></div>
     </div>
