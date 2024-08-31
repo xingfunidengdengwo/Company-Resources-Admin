@@ -10,14 +10,10 @@ const user = sessionStorage.getItem("user");
 
 // 定义绑定数据
 const tableData = ref([]);
-// 控制新增信息窗口是否显示
-// const addWinVisible = ref(false);
 // 控制编辑信息窗口是否显示
 const editWinVisible = ref(false);
 // 上传头像窗口控制
 const uploadImgWinVisible = ref(false);
-// 新增数据绑定对象
-// const addObject = ref({});
 // 编辑数据绑定对象
 const editObject = ref({});
 // 上传头像绑定的数据
@@ -72,30 +68,6 @@ const del = function (index, row) {
     })
 }
 
-// 保存新增数据
-// const addSave = async function () {
-//     // 发送请求
-//     let result = await api.postJson("/api/operators", addObject.value);
-//     if (result.code == 200) {
-//         // 表格数据变更
-//         tableData.value.unshift(result.data);
-//         // 提示
-//         ElMessage({
-//             type: 'success',
-//             message: '注册成功'
-//         })
-
-//         closeAddWin();
-//     }
-//     else if (result.code == 400) {
-
-//         ElMessage({
-//             type: 'warning',
-//             message: '用户名已存在'
-//         });
-//     }
-// }
-
 // 保存编辑数据
 const editSave = async function () {
 
@@ -137,14 +109,6 @@ const edit = function (index, row) {
     // 打开对话框
     editWinVisible.value = true;
 }
-// 显示窗口
-// const openAddWin = () => {
-//     addObject.value = {};
-//     addWinVisible.value = true;
-// }
-// const closeAddWin = () => {
-//     addWinVisible.value = false;
-// }
 
 // const changePage = function (val) {
 //   //val 就是点击的页码
@@ -251,30 +215,6 @@ const saveimg = async function () {
             </div>
         </template>
     </el-dialog>
-
-    <!-- 新增信息的弹出框 -->
-    <!-- <el-dialog v-model="addWinVisible" title="新增" width="500">
-
-        <el-form :model="addObject">
-            <el-form-item label="用户名" label-width="80">
-                <el-input v-model="addObject.name" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="密码" label-width="80">
-                <el-input v-model="addObject.password" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="邮箱" label-width="80">
-                <el-input v-model="addObject.email" autocomplete="off" />
-            </el-form-item>
-        </el-form>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="addWinVisible = false">取消</el-button>
-                <el-button type="primary" @click="addSave">
-                    保存
-                </el-button>
-            </div>
-        </template>
-    </el-dialog> -->
 
     <!-- 编辑信息的弹出框 -->
     <el-dialog v-model="editWinVisible" title="修改用户名和密码" width="500">
