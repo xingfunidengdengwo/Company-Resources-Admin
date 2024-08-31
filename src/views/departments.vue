@@ -62,27 +62,43 @@ const del = function (index, row) {
 const addSave = async function () {
     // 发送请求
     let result = await api.postJson("/api/departments", addObject.value);
-    tableData.value.unshift(result.data);
-    // 表格数据变更
-    ElMessage({
-        type: 'success',
-        message: '保存成功'
-    })
-    // 提示
-    closeAddWin();
+    if (result.code == 200) {
+        // 表格数据变更
+        tableData.value.unshift(result.data);
+        ElMessage({
+            type: 'success',
+            message: '保存成功'
+        })
+        // 提示
+        closeAddWin();
+    } else {
+        ElMessage({
+            type: 'warning',
+            message: result.message
+        })
+    }
 }
 // 保存编辑数据
 const editSave = async function () {
     // 发送请求
     let result = await api.putJson("/api/departments", editObject.value);
-    // 刷新表格
-    tableData.value[editIndex] = result.data;
-    // 提示
-    ElMessage({
-        type: 'success',
-        message: '保存成功'
-    });
-    editWinVisible.value = false;
+    if (result.code == 200) {
+        // 刷新表格
+        tableData.value[editIndex] = result.data;
+        // 提示
+        ElMessage({
+            type: 'success',
+            message: '保存成功'
+        });
+        editWinVisible.value = false;
+    } else {
+        ElMessage({
+            type: 'warning',
+            message: result.message
+        })
+
+    }
+
 }
 
 // 点击编辑按钮执行的方法

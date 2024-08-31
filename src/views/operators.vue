@@ -107,9 +107,13 @@ const editSave = async function () {
     if (result.code == 200) {
         ElMessage({
             type: 'success',
-            message: '保存成功'
+            message: '保存成功，请重新登陆'
         });
         editWinVisible.value = false;
+        sessionStorage.removeItem("token");
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
     } else {
         ElMessage({
             type: 'info',
@@ -276,7 +280,7 @@ const saveimg = async function () {
     <el-dialog v-model="editWinVisible" title="修改用户名和密码" width="500">
 
         <el-form :model="editObject">
-            <el-form-item label="用户名" label-width="80">
+            <el-form-item label="新用户名" label-width="80">
                 <el-input v-model="editObject.name" autocomplete="off" />
             </el-form-item>
             <!-- <el-form-item label="邮箱" label-width="80">
