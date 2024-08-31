@@ -181,7 +181,7 @@ const validateForm = (formData) => {
 
 <template>
     <el-input v-model="checkObj.name" style="width: 150px;margin-right: 10px;" placeholder="输入名称查询" />
-    <el-select v-model="checkObj.departmentId" remote placeholder="请选择分类" multiple-limit="1" clearable="true"
+    <el-select v-model="checkObj.departmentId" remote placeholder="请选择部门" multiple-limit="1" clearable="true"
         @click="remoteMethod" style="width: 150px;margin-right: 10px;">
         <el-option v-for="department in options" :key="department.id" :label="department.name" :value="department.id" />
     </el-select>
@@ -227,7 +227,7 @@ const validateForm = (formData) => {
                 <el-input v-model="addObject.name" autocomplete="off" />
             </el-form-item>
             <el-form-item label="部门" label-width="80">
-                <el-select v-model="addObject.departmentId" remote placeholder="请选择分类" multiple-limit="1"
+                <el-select v-model="addObject.departmentId" remote placeholder="请选择部门" multiple-limit="1"
                     clearable="true" @click="remoteMethod">
                     <el-option v-for="department in options" :key="department.id" :label="department.name"
                         :value="department.id" />
@@ -254,7 +254,7 @@ const validateForm = (formData) => {
                 <el-input v-model="editObject.name" autocomplete="off" />
             </el-form-item>
             <el-form-item label="部门" label-width="80">
-                <el-select v-model="editObject.departmentId" remote placeholder="请选择分类" multiple-limit="1"
+                <el-select v-model="editObject.departmentId" remote placeholder="请选择部门" multiple-limit="1"
                     clearable="true" @click="remoteMethod">
                     <el-option v-for="department in options" :key="department.id" :label="department.name"
                         :value="department.id" />
