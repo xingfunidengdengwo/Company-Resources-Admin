@@ -6,7 +6,7 @@ import { ref, onMounted } from 'vue'
 import {
     Document,
     Menu as IconMenu,
-    User, Notebook, OfficeBuilding, Histogram
+    User, Notebook, OfficeBuilding, Histogram, ArrowLeft
 } from '@element-plus/icons-vue'
 import { Header } from 'element-plus/es/components/table-v2/src/components/index.mjs';
 import { useRouter, useRoute } from 'vue-router';
@@ -26,7 +26,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 // 页头开始
 const goBack = () => {
     console.log('go back');
-    if (route.path != "/home") {
+    if (route.path != "/charts") {
         router.go(-1);
     }
 }
