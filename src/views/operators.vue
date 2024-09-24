@@ -146,7 +146,10 @@ const uploadimg = function (index, row) {
 const handleAvatarSuccess: UploadProps['onSuccess'] = function (result, uploadFile) {
     console.log(result);
     console.log(uploadFile);
-    imageUrl.value = "api" + result.data;
+
+    // 上传成功后将文件的地址保存到对象中
+    editObject.value.img = "api" + result.data;
+
 }
 const beforeAvatarUpload: UploadProps['beforeUpload'] = function (rawFile) {
     if (rawFile.type !== 'image/jpeg') {
