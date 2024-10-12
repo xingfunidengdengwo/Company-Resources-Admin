@@ -50,7 +50,7 @@ const del = function (index, row) {
             })
         } else {
             ElMessage({
-                type: 'info',
+                type: 'warning',
                 message: result.message
             })
         }
