@@ -79,7 +79,8 @@ const editSave = async function () {
     // 发送请求
     let result = await api.putJson("/api/operators", editObject.value);
     // 刷新表格
-    tableData.value[editIndex] = result.data;
+    // tableData.value[editIndex] = result.data;
+    checkData();
     // 提示
     if (result.code == 200) {
         ElMessage({
@@ -93,7 +94,7 @@ const editSave = async function () {
         }, 2000);
     } else {
         ElMessage({
-            type: 'info',
+            type: 'warning',
             message: result.message
         })
 
