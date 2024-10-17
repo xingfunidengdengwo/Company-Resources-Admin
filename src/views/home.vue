@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ElConfigProvider } from 'element-plus'
+import { ElConfigProvider, ElMessage } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 // 菜单开始
 import { ref, onMounted } from 'vue'
@@ -28,6 +28,8 @@ const goBack = () => {
     console.log('go back');
     if (route.path != "/charts") {
         router.go(-1);
+    } else {
+        ElMessage.error("已经为首页，无法再返回")
     }
 }
 // 页头结束
