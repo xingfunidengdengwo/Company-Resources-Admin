@@ -170,7 +170,15 @@ const saveimg = async function () {
     let result = await api.putForm("/api/operatorsimg", editObject.value);
     //关闭上传窗口
     uploadImgWinVisible.value = false;
-    ElMessage({ type: 'success', message: '头像将在重新登陆后生效' })
+
+    //同步更改标题栏的头像
+    sessionStorage.setItem("avatar", editObject.value.img)
+    //刷新页面
+    setTimeout(() => {
+        location.reload();
+    }, 1000);
+
+    ElMessage({ type: 'success', message: '头像更改成功,1秒后生效' })
 
 }
 
