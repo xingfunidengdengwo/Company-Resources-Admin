@@ -206,6 +206,28 @@ const validateForm = (formData) => {
         isValid = false;
         return isValid;
     }
+
+    //验证新密码长度是否大于6位
+    if (formData.newPassword.length < 6) {
+        ElMessage.error('新密码长度不能小于6位');
+        isValid = false;
+        return isValid;
+    }
+
+    // 验证确认密码
+    if (!formData.confirmPassword || formData.confirmPassword.trim() === '') {
+        ElMessage.error('请输入确认密码');
+        isValid = false;
+        return isValid;
+    }
+
+    // 验证确认密码是否与新密码一致
+    if (formData.confirmPassword !== formData.newPassword) {
+        ElMessage.error('确认密码与新密码不一致');
+        isValid = false;
+        return isValid;
+    }
+
     return isValid;
 
 };
@@ -279,6 +301,9 @@ const validateForm = (formData) => {
             </el-form-item>
             <el-form-item label="新密码" label-width="80">
                 <el-input v-model="editObject.newPassword" type="password" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="确认密码" label-width="80">
+                <el-input v-model="editObject.confirmPassword" type="password" autocomplete="off" />
             </el-form-item>
         </el-form>
         <template #footer>
