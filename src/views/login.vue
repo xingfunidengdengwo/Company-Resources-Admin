@@ -132,6 +132,7 @@ const success = (msg) => {
                 // 登录成功
                 // 存放 token
                 sessionStorage.setItem("token", result.data.token);
+                // 存放当前登录的用户信息
                 if (result.data.operators != null) {
                     sessionStorage.setItem("userId", result.data.operators.id);
                 }

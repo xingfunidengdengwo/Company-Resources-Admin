@@ -109,7 +109,12 @@ const editSave = async function () {
 }
 
 //点击编辑按钮执行的方法
-const edit = function (index, row) {
+const edit = async function (index, row) {
+
+    //提前加载编辑信息弹出框的下拉选择框数据，避免出现数据绑定后显示id的情况
+    let result = await api.get("/api/departments")
+    options.value = result.data.list;
+
     //记录修改数据的下标
     editIndex = index;
     //绑定要修改的数据

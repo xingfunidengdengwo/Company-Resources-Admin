@@ -52,7 +52,7 @@ const del = function (index, row) {
             // 提示删除成功
             ElMessage({
                 type: 'success',
-                message: '注销成功，请重新登陆'
+                message: '注销成功，请重新登录'
             })
             sessionStorage.removeItem("token");
             setTimeout(() => {
