@@ -148,7 +148,8 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = function (result, uploadFi
     console.log(uploadFile);
 
     // 上传成功后将文件的地址保存到对象中
-    editObject.value.img = "api" + result.data;
+    imageUrl.value.img = "api" + result.data;
+    console.log("imageUrl对象内容是" + imageUrl.value);
 
 }
 const beforeAvatarUpload: UploadProps['beforeUpload'] = function (rawFile) {
@@ -163,9 +164,11 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = function (rawFile) {
 }
 
 const saveimg = async function () {
-    // 将文件的地址和数据 id 发送到后台保存
-    editObject.value.img = imageUrl.value;
+    //将imageUrl对象内容保存到editObject对象中实现刷新表格数据
+    editObject.value.img = imageUrl.value.img;
+    // 将editObject对象中文件的地址和数据 id 发送到后台保存
     let result = await api.putForm("/api/operatorsimg", editObject.value);
+    //关闭上传窗口
     uploadImgWinVisible.value = false;
     ElMessage({ type: 'success', message: '头像将在重新登陆后生效' })
 
@@ -238,7 +241,8 @@ const validateForm = (formData) => {
     <el-dialog v-model="uploadImgWinVisible" title="上传头像" width="500">
         <el-upload class="avatar-uploader" action="/api/operatorsimg/1" :show-file-list="false"
             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-            <img v-if="editObject.img" :src="editObject.img" class="avatar" />
+            <!-- 此处的imageURL是一个新的对象，防止上传头像但是未点击保存按钮时表格中头像被替换 -->
+            <img v-if="imageUrl.img" :src="imageUrl.img" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon">
                 <Plus />
             </el-icon>
