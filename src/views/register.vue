@@ -89,7 +89,7 @@ const sendRegisterMsg = async function () {
     if (result.code == 200) {
         ElMessage({
             type: 'success',
-            message: '重置密码的邮件已发送，请查收您的邮箱'
+            message: '注册邮件已发送，请查收您的邮箱'
         })
     } else {
         ElMessage({
