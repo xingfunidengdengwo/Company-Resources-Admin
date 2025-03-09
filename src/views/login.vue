@@ -69,7 +69,7 @@ const handleForgetPassword = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
         if (valid) {
-            let result = await api.putJson("api/validatecode", editObject.value);
+            let result = await api.putJson("api/updatepassword", editObject.value);
             console.log(editObject.value);
             console.log(result);
             if (result.code == 200) {
