@@ -35,6 +35,7 @@ const goBack = () => {
 // 页头结束
 const logout = function () {
     sessionStorage.removeItem("token")
+    localStorage.removeItem("loginForm")
     location.reload();//刷新页面 
 }
 
