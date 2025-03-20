@@ -127,7 +127,7 @@
             }
             if (valid) {
                 let result = await api.postJson("/api/dologin", loginObj.value);
-                console.log(result.value)
+                console.log(result)
                 if (result.code == 200 && result.data) {
                     // 登录成功
                     // 存放 token
@@ -141,34 +141,33 @@
                     }
                     if (result.data.operators != null) {
                         sessionStorage.setItem("avatar", result.data.operators.img);
-
-                        // 记住我 存储
-                        if (loginObj.value.rememberMe == true) {
-                            localStorage.setItem("loginForm", JSON.stringify(loginObj.value));
-                            // localStorage.setItem("rememberMeValue",JSON.stringify(rememberMe.value));
-                        } else {
-                            localStorage.setItem("loginForm", JSON.stringify({}));
-                        }
-
-                        // 提示
-                        ElMessage({
-                            type: 'success',
-                            message: result.message
-                        });
-                        // 获取当前登录的用户名
-                        const userName = sessionStorage.getItem("userName");
-                        // 用户登陆提示
-                        loginNotify(userName);
-                        setTimeout(function () {
-                            // js 代码跳转
-                            router.push("/charts");
-                        }, 2000);
-                    } else {
-                        ElMessage({
-                            type: 'warning',
-                            message: "用户名或密码不正确！"
-                        });
                     }
+                    // 记住我 存储
+                    if (loginObj.value.rememberMe == true) {
+                        localStorage.setItem("loginForm", JSON.stringify(loginObj.value));
+                        // localStorage.setItem("rememberMeValue",JSON.stringify(rememberMe.value));
+                    } else {
+                        localStorage.setItem("loginForm", JSON.stringify({}));
+                    }
+
+                    // 提示
+                    ElMessage({
+                        type: 'success',
+                        message: result.message
+                    });
+                    // 获取当前登录的用户名
+                    const userName = sessionStorage.getItem("userName");
+                    // 用户登陆提示
+                    loginNotify(userName);
+                    setTimeout(function () {
+                        // js 代码跳转
+                        router.push("/charts");
+                    }, 2000);
+                } else {
+                    ElMessage({
+                        type: 'warning',
+                        message: result.message
+                    });
                 }
             }
         });
