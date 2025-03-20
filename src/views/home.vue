@@ -1,56 +1,56 @@
 <script lang="ts" setup>
-import { ElConfigProvider, ElMessage } from 'element-plus'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-// 菜单开始
-import { ref, onMounted } from 'vue'
-import {
-    Document,
-    Menu as IconMenu,
-    User, Notebook, OfficeBuilding, Histogram, ArrowLeft
-} from '@element-plus/icons-vue'
-import { Header } from 'element-plus/es/components/table-v2/src/components/index.mjs';
-import { useRouter, useRoute } from 'vue-router';
+    import { ElConfigProvider, ElMessage } from 'element-plus'
+    import zhCn from 'element-plus/es/locale/lang/zh-cn'
+    // 菜单开始
+    import { ref, onMounted } from 'vue'
+    import {
+        Document,
+        Menu as IconMenu,
+        User, Notebook, OfficeBuilding, Histogram, ArrowLeft
+    } from '@element-plus/icons-vue'
+    import { Header } from 'element-plus/es/components/table-v2/src/components/index.mjs';
+    import { useRouter, useRoute } from 'vue-router';
 
-const router = useRouter();
-const route = useRoute();
+    const router = useRouter();
+    const route = useRoute();
 
 
-const isCollapse = ref(false)
-const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
-// 菜单结束
-// 页头开始
-const goBack = () => {
-    console.log('go back');
-    if (route.path != "/charts") {
-        router.go(-1);
-    } else {
-        ElMessage.error("已经为首页，无法再返回")
+    const isCollapse = ref(false)
+    const handleOpen = (key: string, keyPath: string[]) => {
+        console.log(key, keyPath)
     }
-}
-// 页头结束
-const logout = function () {
-    sessionStorage.removeItem("token")
-    localStorage.removeItem("loginForm")
-    location.reload();//刷新页面 
-}
+    const handleClose = (key: string, keyPath: string[]) => {
+        console.log(key, keyPath)
+    }
+    // 菜单结束
+    // 页头开始
+    const goBack = () => {
+        console.log('go back');
+        if (route.path != "/charts") {
+            router.go(-1);
+        } else {
+            ElMessage.error("已经为首页，无法再返回")
+        }
+    }
+    // 页头结束
+    const logout = function () {
+        sessionStorage.removeItem("token")
+        localStorage.removeItem("loginForm")
+        location.reload();//刷新页面 
+    }
 
-//获取当前登录的用户名
-const user = sessionStorage.getItem("user");
-//获取当前登录的头像地址
-const avatar = sessionStorage.getItem("avatar");
+    //获取当前登录的用户名
+    const userName = sessionStorage.getItem("userName");
+    //获取当前登录的头像地址
+    const avatar = sessionStorage.getItem("avatar");
 
-onMounted(function () {
-    //打印当前用户名
-    console.log(user);
-    //打印当前头像地址
-    console.log(avatar);
+    onMounted(function () {
+        //打印当前用户名
+        console.log(userName);
+        //打印当前头像地址
+        console.log(avatar);
 
-})
+    })
 
 </script>
 
@@ -67,7 +67,7 @@ onMounted(function () {
                                 <el-avatar :size="32" class="mr-3" :src=avatar />
                                 <span class="text-large font-600 mr-3"> 您好 </span>
                                 <span class="text-sm mr-2" style="color: var(--el-text-color-regular)">
-                                    <span class="text-large font-600 mr-3"> {{ user }} </span>
+                                    <span class="text-large font-600 mr-3"> {{ userName }} </span>
                                 </span>
                                 <el-tag>管理员</el-tag>
                             </div>
@@ -157,26 +157,26 @@ onMounted(function () {
 </template>
 
 <style scoped>
-.el-header {
-    position: relative;
-    background-color: var(--el-color-primary-light-7);
-    color: var(--el-text-color-primary);
-}
+    .el-header {
+        position: relative;
+        background-color: var(--el-color-primary-light-7);
+        color: var(--el-text-color-primary);
+    }
 
-/* .el-aside {
+    /* .el-aside {
     color: var(--el-text-color-primary);
     background: var(--el-color-primary-light-8);
 } */
 
-.el-menu {
-    border-right: none;
-}
+    .el-menu {
+        border-right: none;
+    }
 
-.el-main {
-    padding: 0;
-}
+    .el-main {
+        padding: 0;
+    }
 
-/* .toolbar {
+    /* .toolbar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -184,11 +184,11 @@ onMounted(function () {
     right: 20px;
 } */
 
-/* 菜单开始 */
-.el-menu-vertical:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
-}
+    /* 菜单开始 */
+    .el-menu-vertical:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
+    }
 
-/* 菜单结束 */
+    /* 菜单结束 */
 </style>
