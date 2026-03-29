@@ -3,10 +3,14 @@ import api from "../api";
 const islogin = async function (to, from) {
   //获取token
   let token = sessionStorage.getItem("token");
-  //验证token是否有效
-  let result = await api.get("/api/checktoken");
+  try {
+    //验证token是否有效
+    let result = await api.get("/api/checktoken");
 
-  if (!token || result.code != 200) {
+    if (!token || result.code != 200) {
+      return { path: "/login" };
+    }
+  } catch {
     return { path: "/login" };
   }
 };
